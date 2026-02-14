@@ -12,11 +12,15 @@ import PeopleIcon from '@mui/icons-material/People';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CoffeeIcon from '@mui/icons-material/Coffee';
 import LoginIcon from '@mui/icons-material/Login';
-import AgricultureIcon from '@mui/icons-material/Agriculture'; // Icono para Proveedores
+import AgricultureIcon from '@mui/icons-material/Agriculture';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping'; // <--- NUEVO ICONO PARA ÓRDENES
 
 // Importación de componentes de listas
 import ProductListPage from "./products/ProductListPage"; 
-import SupplierListPage from "./suppliers/SupplierListPage"; // <-- 1. NUEVA IMPORTACIÓN
+import SupplierListPage from "./suppliers/SupplierListPage";
+import SaleListPage from "./sales/SaleListPage";
+import OrderListPage from "./orders/OrderListPage"; // <--- 1. IMPORTAR LISTA DE ÓRDENES
 
 const drawerWidth = 240;
 
@@ -95,7 +99,7 @@ const Home = () => {
         <Toolbar />
         <Box sx={{ overflow: 'auto', mt: 2 }}>
           <List>
-            {/* OPCIÓN: PRODUCTOS */}
+            {/* INVENTARIO */}
             <ListItem disablePadding>
               <ListItemButton onClick={() => setActiveTab("Productos")} selected={activeTab === "Productos"}>
                 <ListItemIcon><InventoryIcon color={activeTab === "Productos" ? "primary" : "inherit"} /></ListItemIcon>
@@ -103,14 +107,31 @@ const Home = () => {
               </ListItemButton>
             </ListItem>
 
-            {/* 2. NUEVA OPCIÓN: PROVEEDORES */}
+            {/* PROVEEDORES */}
             <ListItem disablePadding>
               <ListItemButton onClick={() => setActiveTab("Proveedores")} selected={activeTab === "Proveedores"}>
                 <ListItemIcon><AgricultureIcon color={activeTab === "Proveedores" ? "success" : "inherit"} /></ListItemIcon>
-                <ListItemText primary="Proveedores (Fincas)" />
+                <ListItemText primary="Proveedores" />
               </ListItemButton>
             </ListItem>
 
+            {/* VENTAS */}
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => setActiveTab("Ventas")} selected={activeTab === "Ventas"}>
+                <ListItemIcon><ShoppingCartIcon color={activeTab === "Ventas" ? "warning" : "inherit"} /></ListItemIcon>
+                <ListItemText primary="Ventas" />
+              </ListItemButton>
+            </ListItem>
+
+            {/* 2. NUEVA OPCIÓN: ÓRDENES (PEDIDOS) */}
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => setActiveTab("Ordenes")} selected={activeTab === "Ordenes"}>
+                <ListItemIcon><LocalShippingIcon color={activeTab === "Ordenes" ? "info" : "inherit"} /></ListItemIcon>
+                <ListItemText primary="Pedidos / Órdenes" />
+              </ListItemButton>
+            </ListItem>
+
+            {/* USUARIOS */}
             <ListItem disablePadding>
               <ListItemButton onClick={() => setActiveTab("Usuarios")} selected={activeTab === "Usuarios"}>
                 <ListItemIcon><PeopleIcon color={activeTab === "Usuarios" ? "primary" : "inherit"} /></ListItemIcon>
@@ -124,10 +145,11 @@ const Home = () => {
       <Box component="main" sx={{ flexGrow: 1, p: 3, bgcolor: '#f4f1ea', minHeight: '100vh' }}>
         <Toolbar />
         
-        {/* 3. LÓGICA DE RENDERIZADO CONDICIONAL */}
+        {/* 3. RENDERIZADO CONDICIONAL ACTUALIZADO */}
         {activeTab === 'Productos' && <ProductListPage />}
-        
         {activeTab === 'Proveedores' && <SupplierListPage />}
+        {activeTab === 'Ventas' && <SaleListPage />}
+        {activeTab === 'Ordenes' && <OrderListPage />} {/* <--- MOSTRAR ÓRDENES */}
         
         {activeTab === 'Usuarios' && (
           <Typography variant="h5">Gestión de Usuarios</Typography>
