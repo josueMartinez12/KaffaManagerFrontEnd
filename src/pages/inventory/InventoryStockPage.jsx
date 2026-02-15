@@ -6,7 +6,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import * as inventoryService from "../../services/inventoryService";
-import AdjustStockModal from "./AdjustStockModal"; // Lo crearemos abajo
+import AdjustStockModal from "./AdjustStockModal";
 
 function InventoryStockPage() {
     const [products, setProducts] = useState([]);
@@ -23,6 +23,10 @@ function InventoryStockPage() {
         try {
             const stockData = await inventoryService.getCurrentStock();
             const alertData = await inventoryService.getLowStockAlerts();
+            
+            // LOG DE DEPURACIÓN: Abre la consola (F12) para ver esto
+            console.log("Productos cargados:", stockData);
+            
             setProducts(stockData);
             setAlerts(alertData.alertas || []);
         } catch (error) {
@@ -64,18 +68,28 @@ function InventoryStockPage() {
                                 <TableCell sx={{ fontWeight: 'bold' }}>{prod.nombre}</TableCell>
                                 <TableCell align="center">
                                     <Chip 
-                                        label={prod.stock} 
+                                        // Muestra el stock real o 0 si no existe el campo
+                                        label={prod.stock !== undefined ? prod.stock : 0} 
                                         color={prod.stock < 10 ? "error" : "success"}
-                                        variant="outlined"
-                                        sx={{ fontWeight: 'bold', fontSize: '1rem' }}
+                                        variant="filled"
+                                        sx={{ 
+                                            fontWeight: 'bold', 
+                                            fontSize: '1rem',
+                                            minWidth: '60px',
+                                            color: 'white',
+                                            bgcolor: prod.stock < 10 ? '#d32f2f' : '#2e7d32' 
+                                        }}
                                     />
                                 </TableCell>
-                                <TableCell align="right">${prod.precio.toFixed(2)}</TableCell>
+                                <TableCell align="right">
+                                    ${prod.precio ? prod.precio.toFixed(2) : "0.00"}
+                                </TableCell>
                                 <TableCell align="center">
                                     <Button 
                                         startIcon={<AddIcon />} 
                                         color="success" 
                                         onClick={() => handleOpenAdjust(prod, "Entrada")}
+                                        sx={{ mr: 1 }}
                                     >
                                         Entrada
                                     </Button>
@@ -83,6 +97,8 @@ function InventoryStockPage() {
                                         startIcon={<RemoveIcon />} 
                                         color="error"
                                         onClick={() => handleOpenAdjust(prod, "Salida")}
+                                        // Deshabilitar salida si no hay nada que sacar
+                                        disabled={prod.stock <= 0}
                                     >
                                         Salida
                                     </Button>

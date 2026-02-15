@@ -8,7 +8,7 @@ export const getCurrentStock = async () => {
 
 // Ajustar stock (Según tu controlador es una lógica interna, pero la ruta POST /move existe)
 export const adjustStock = async (data) => {
-    // Aquí usamos /move porque es lo que definiste en tu archivo de rutas
+    // data debe ser { productoId, cantidad, tipo }
     const res = await api.post("/inventory/move", data);
     return res.data;
 };
@@ -23,4 +23,6 @@ export const getLowStockAlerts = async () => {
     } catch (e) {
         return { alertas: [] };
     }
+
+    
 };

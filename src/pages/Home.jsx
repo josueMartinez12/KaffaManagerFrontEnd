@@ -16,7 +16,7 @@ import AgricultureIcon from '@mui/icons-material/Agriculture';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import HistoryIcon from '@mui/icons-material/History'; // Icono para movimientos
+import LayersIcon from '@mui/icons-material/Layers'; // Icono para Lotes (Batches)
 
 // Importación de componentes de listas
 import ProductListPage from "./products/ProductListPage"; 
@@ -24,7 +24,8 @@ import SupplierListPage from "./suppliers/SupplierListPage";
 import SaleListPage from "./sales/SaleListPage";
 import OrderListPage from "./orders/OrderListPage";
 import InvoiceListPage from "./invoices/InvoiceListPage";
-import InventoryStockPage from "./inventory/InventoryStockPage"; // <--- 1. IMPORTAR INVENTARIO
+import InventoryStockPage from "./inventory/InventoryStockPage"; 
+import BatchListPage from "./batches/BatchListPage"; // <--- 1. IMPORTAR BATCHES
 
 const drawerWidth = 240;
 
@@ -32,7 +33,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("Inventario"); // Cambiado a Inventario por defecto
+  const [activeTab, setActiveTab] = useState("Inventario");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -103,7 +104,7 @@ const Home = () => {
         <Toolbar />
         <Box sx={{ overflow: 'auto', mt: 2 }}>
           <List>
-            {/* CONTROL DE INVENTARIO (STOCK) */}
+            {/* INVENTARIO */}
             <ListItem disablePadding>
               <ListItemButton onClick={() => setActiveTab("Inventario")} selected={activeTab === "Inventario"}>
                 <ListItemIcon><InventoryIcon color={activeTab === "Inventario" ? "primary" : "inherit"} /></ListItemIcon>
@@ -111,7 +112,15 @@ const Home = () => {
               </ListItemButton>
             </ListItem>
 
-            {/* PRODUCTOS (LISTA/CATÁLOGO) */}
+            {/* LOTES / BATCHES (NUEVO) */}
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => setActiveTab("Batches")} selected={activeTab === "Batches"}>
+                <ListItemIcon><LayersIcon color={activeTab === "Batches" ? "info" : "inherit"} /></ListItemIcon>
+                <ListItemText primary="Lotes de Tueste" />
+              </ListItemButton>
+            </ListItem>
+
+            {/* PRODUCTOS */}
             <ListItem disablePadding>
               <ListItemButton onClick={() => setActiveTab("Productos")} selected={activeTab === "Productos"}>
                 <ListItemIcon><CoffeeIcon color={activeTab === "Productos" ? "secondary" : "inherit"} /></ListItemIcon>
@@ -137,7 +146,7 @@ const Home = () => {
               </ListItemButton>
             </ListItem>
 
-            {/* ÓRDENES (PEDIDOS) */}
+            {/* PEDIDOS */}
             <ListItem disablePadding>
               <ListItemButton onClick={() => setActiveTab("Ordenes")} selected={activeTab === "Ordenes"}>
                 <ListItemIcon><LocalShippingIcon color={activeTab === "Ordenes" ? "info" : "inherit"} /></ListItemIcon>
@@ -169,8 +178,9 @@ const Home = () => {
       <Box component="main" sx={{ flexGrow: 1, p: 3, bgcolor: '#f4f1ea', minHeight: '100vh' }}>
         <Toolbar />
         
-        {/* RENDERIZADO CONDICIONAL */}
-        {activeTab === 'Inventario' && <InventoryStockPage />} {/* <--- NUEVO */}
+        {/* RENDERIZADO CONDICIONAL ACTUALIZADO */}
+        {activeTab === 'Inventario' && <InventoryStockPage />}
+        {activeTab === 'Batches' && <BatchListPage />} {/* <--- 2. RENDERIZAR BATCHES */}
         {activeTab === 'Productos' && <ProductListPage />}
         {activeTab === 'Proveedores' && <SupplierListPage />}
         {activeTab === 'Ventas' && <SaleListPage />}

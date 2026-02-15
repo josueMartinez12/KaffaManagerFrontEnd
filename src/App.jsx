@@ -2,24 +2,30 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Home from "./pages/Home";
 import LoginUserPage from "./pages/users/LoginUserPage.jsx";
 import CreateUserPage from "./pages/users/CreateUserPage.jsx";
+
 // Importaciones de Productos
 import CreateProductPage from "./pages/products/CreateProductPage.jsx";
 import EditProductPage from "./pages/products/EditProductPage.jsx";
+
 // Importaciones de Proveedores
 import CreateSupplierPage from "./pages/suppliers/CreateSupplierPage.jsx";
 import EditSupplierPage from "./pages/suppliers/EditSupplierPage.jsx";
+
 // Importaciones de Ventas
 import SaleListPage from "./pages/sales/SaleListPage.jsx";
 import ProcessSalePage from "./pages/sales/ProcessSalePage.jsx";
-// Importaciones de Órdenes (NUEVO)
+
+// Importaciones de Órdenes
 import OrderListPage from "./pages/orders/OrderListPage.jsx";
 import CreateOrderPage from "./pages/orders/CreateOrderPage.jsx";
 
+// Importaciones de Facturas e Inventario
 import InvoiceListPage from "./pages/invoices/InvoiceListPage.jsx";
 import CreateInvoicePage from "./pages/invoices/CreateInvoicePage.jsx";
-
 import InventoryStockPage from "./pages/inventory/InventoryStockPage";
 
+// --- NUEVA IMPORTACIÓN DE LOTES ---
+import BatchListPage from "./pages/batches/BatchListPage.jsx"; 
 
 function App() {
   return (
@@ -47,10 +53,13 @@ function App() {
         <Route path="/orders/create" element={<CreateOrderPage />} />
         <Route path="/orders" element={<OrderListPage />} />
 
+        {/* RUTAS DE FACTURAS E INVENTARIO */}
         <Route path="/invoices" element={<InvoiceListPage />} />
         <Route path="/invoices/create" element={<CreateInvoicePage />} />
-
         <Route path="/inventory" element={<InventoryStockPage />} />
+
+        {/* --- NUEVA RUTA DE LOTES (BATCHES) --- */}
+        <Route path="/batches" element={<BatchListPage />} />
 
         {/* REDIRECCIÓN POR DEFECTO */}
         <Route path="*" element={<Navigate to="/home" />} />
