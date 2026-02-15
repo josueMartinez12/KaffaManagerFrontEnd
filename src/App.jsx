@@ -15,6 +15,12 @@ import ProcessSalePage from "./pages/sales/ProcessSalePage.jsx";
 import OrderListPage from "./pages/orders/OrderListPage.jsx";
 import CreateOrderPage from "./pages/orders/CreateOrderPage.jsx";
 
+import InvoiceListPage from "./pages/invoices/InvoiceListPage.jsx";
+import CreateInvoicePage from "./pages/invoices/CreateInvoicePage.jsx";
+
+import InventoryStockPage from "./pages/inventory/InventoryStockPage";
+
+
 function App() {
   return (
     <Router>
@@ -40,6 +46,11 @@ function App() {
         {/* RUTAS DE ÓRDENES */}
         <Route path="/orders/create" element={<CreateOrderPage />} />
         <Route path="/orders" element={<OrderListPage />} />
+
+        <Route path="/invoices" element={<InvoiceListPage />} />
+        <Route path="/invoices/create" element={<CreateInvoicePage />} />
+
+        <Route path="/inventory" element={<InventoryStockPage />} />
 
         {/* REDIRECCIÓN POR DEFECTO */}
         <Route path="*" element={<Navigate to="/home" />} />

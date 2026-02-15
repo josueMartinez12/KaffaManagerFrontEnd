@@ -14,13 +14,17 @@ import CoffeeIcon from '@mui/icons-material/Coffee';
 import LoginIcon from '@mui/icons-material/Login';
 import AgricultureIcon from '@mui/icons-material/Agriculture';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping'; // <--- NUEVO ICONO PARA ÓRDENES
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import HistoryIcon from '@mui/icons-material/History'; // Icono para movimientos
 
 // Importación de componentes de listas
 import ProductListPage from "./products/ProductListPage"; 
 import SupplierListPage from "./suppliers/SupplierListPage";
 import SaleListPage from "./sales/SaleListPage";
-import OrderListPage from "./orders/OrderListPage"; // <--- 1. IMPORTAR LISTA DE ÓRDENES
+import OrderListPage from "./orders/OrderListPage";
+import InvoiceListPage from "./invoices/InvoiceListPage";
+import InventoryStockPage from "./inventory/InventoryStockPage"; // <--- 1. IMPORTAR INVENTARIO
 
 const drawerWidth = 240;
 
@@ -28,7 +32,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("Productos");
+  const [activeTab, setActiveTab] = useState("Inventario"); // Cambiado a Inventario por defecto
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -99,13 +103,23 @@ const Home = () => {
         <Toolbar />
         <Box sx={{ overflow: 'auto', mt: 2 }}>
           <List>
-            {/* INVENTARIO */}
+            {/* CONTROL DE INVENTARIO (STOCK) */}
             <ListItem disablePadding>
-              <ListItemButton onClick={() => setActiveTab("Productos")} selected={activeTab === "Productos"}>
-                <ListItemIcon><InventoryIcon color={activeTab === "Productos" ? "primary" : "inherit"} /></ListItemIcon>
-                <ListItemText primary="Inventario" />
+              <ListItemButton onClick={() => setActiveTab("Inventario")} selected={activeTab === "Inventario"}>
+                <ListItemIcon><InventoryIcon color={activeTab === "Inventario" ? "primary" : "inherit"} /></ListItemIcon>
+                <ListItemText primary="Inventario (Stock)" />
               </ListItemButton>
             </ListItem>
+
+            {/* PRODUCTOS (LISTA/CATÁLOGO) */}
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => setActiveTab("Productos")} selected={activeTab === "Productos"}>
+                <ListItemIcon><CoffeeIcon color={activeTab === "Productos" ? "secondary" : "inherit"} /></ListItemIcon>
+                <ListItemText primary="Catálogo Productos" />
+              </ListItemButton>
+            </ListItem>
+
+            <Divider sx={{ my: 1 }} />
 
             {/* PROVEEDORES */}
             <ListItem disablePadding>
@@ -123,13 +137,23 @@ const Home = () => {
               </ListItemButton>
             </ListItem>
 
-            {/* 2. NUEVA OPCIÓN: ÓRDENES (PEDIDOS) */}
+            {/* ÓRDENES (PEDIDOS) */}
             <ListItem disablePadding>
               <ListItemButton onClick={() => setActiveTab("Ordenes")} selected={activeTab === "Ordenes"}>
                 <ListItemIcon><LocalShippingIcon color={activeTab === "Ordenes" ? "info" : "inherit"} /></ListItemIcon>
                 <ListItemText primary="Pedidos / Órdenes" />
               </ListItemButton>
             </ListItem>
+
+            {/* FACTURACIÓN */}
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => setActiveTab("Facturas")} selected={activeTab === "Facturas"}>
+                <ListItemIcon><ReceiptLongIcon color={activeTab === "Facturas" ? "secondary" : "inherit"} /></ListItemIcon>
+                <ListItemText primary="Facturación" />
+              </ListItemButton>
+            </ListItem>
+
+            <Divider sx={{ my: 1 }} />
 
             {/* USUARIOS */}
             <ListItem disablePadding>
@@ -145,11 +169,13 @@ const Home = () => {
       <Box component="main" sx={{ flexGrow: 1, p: 3, bgcolor: '#f4f1ea', minHeight: '100vh' }}>
         <Toolbar />
         
-        {/* 3. RENDERIZADO CONDICIONAL ACTUALIZADO */}
+        {/* RENDERIZADO CONDICIONAL */}
+        {activeTab === 'Inventario' && <InventoryStockPage />} {/* <--- NUEVO */}
         {activeTab === 'Productos' && <ProductListPage />}
         {activeTab === 'Proveedores' && <SupplierListPage />}
         {activeTab === 'Ventas' && <SaleListPage />}
-        {activeTab === 'Ordenes' && <OrderListPage />} {/* <--- MOSTRAR ÓRDENES */}
+        {activeTab === 'Ordenes' && <OrderListPage />}
+        {activeTab === 'Facturas' && <InvoiceListPage />}
         
         {activeTab === 'Usuarios' && (
           <Typography variant="h5">Gestión de Usuarios</Typography>
