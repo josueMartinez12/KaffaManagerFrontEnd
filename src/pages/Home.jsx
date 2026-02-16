@@ -164,13 +164,6 @@ const Home = () => {
 
             <Divider sx={{ my: 1 }} />
 
-            {/* USUARIOS */}
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setActiveTab("Usuarios")} selected={activeTab === "Usuarios"}>
-                <ListItemIcon><PeopleIcon color={activeTab === "Usuarios" ? "primary" : "inherit"} /></ListItemIcon>
-                <ListItemText primary="Usuarios" />
-              </ListItemButton>
-            </ListItem>
           </List>
         </Box>
       </Drawer>
